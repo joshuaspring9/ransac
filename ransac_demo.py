@@ -83,7 +83,7 @@ def run(max_rounds):
         plot.plot(chosen_points[0:2,0], chosen_points[0:2,1], marker='o', label='Selected points', color='#cc0000', linestyle='None', alpha=0.4) 
         
         # draw the selected line, using the fact that y = mx + b
-        plot.plot(x_scattered, slope * x_scattered + y_int, 'r', label='Line model', color='#0076ff', linewidth=1.0)
+        plot.plot(x_scattered, slope * x_scattered + y_int, 'r', label='Line model', color='#cc0000', linewidth=1.0)
 
         print("On interation number " + str(j))
      
