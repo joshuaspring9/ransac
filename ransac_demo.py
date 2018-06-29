@@ -46,7 +46,7 @@ def run(max_rounds):
     # set the min percent of inliers needed to 60%
     ratio = 0.6
     # set the max distance on each side of the line
-    distance = 1.5
+    distance = 2.0
 
     # figure out the minumum number of inliers needed for a model to be considered good
     total_points = len(output)
