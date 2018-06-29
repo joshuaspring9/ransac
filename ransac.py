@@ -53,8 +53,10 @@ def ransac_single_round(input_points, max_distance):
 
     if bottom == 0:
         slope = None
+        y_int = None
     elif top == 0:
         slope = 0
+        y_int = chosen_points[0][0]
     else:
         slope = top / (1.0 * bottom)
         y_int = chosen_points[0][1] - (chosen_points[0][0] * slope)
