@@ -1,10 +1,22 @@
 #!/usr/bin/env python
 
+# set the folder where the charts will be written to
+OUTPUT_DIR = "./Output"
+# set the maximum number of rounds for the demo to run
+MAX_ROUNDS = 10
+
 import numpy as np
 import matplotlib.pyplot as plot
 import ransac
+import os
 
 def run(max_rounds):
+
+    # first clear the output directory of any charts from previous runs
+    listing = os.listdir(OUTPUT_DIR)
+    for item in listing:
+        if item.endswith(".png"):
+            os.remove(os.path.join(OUTPUT_DIR, item))
 
     # use numpy to generate random samples.  multiply by 20 to get a wide array of numbers between 0 and 20
     # (500,1) means that the array generated is 500 rows x 1 column
@@ -41,7 +53,7 @@ def run(max_rounds):
     min_inliers = total_points * ratio
 
     # run the demonstration for a maximum of 10 rounds
-    for j in range(1, max_rounds):
+    for j in range(1, max_rounds + 1):
 
         results = ransac.ransac_single_round(output, distance)
 
@@ -78,17 +90,17 @@ def run(max_rounds):
         if num_inliers >= min_inliers:
             plot.title('RANSAC Results')
             plot.legend()
-            plot.savefig("ransac_results.png")
+            plot.savefig(OUTPUT_DIR + "/ransac_results.png")
             plot.close()
             print("Algorithm Complete!")
             break
         else:
             plot.title('RANSAC Iteration ' + str(j))
             plot.legend()
-            plot.savefig("ransac_iteration_" + str(j) + ".png")
+            plot.savefig(OUTPUT_DIR + "/ransac_iteration_" + str(j) + ".png")
             plot.close()
 
 if __name__ == "__main__":
 
-    # run the demo with a maximum of 10 rounds
-    run(10)
+    # run the demo with using the max rounds parameter set the top of the file
+    run(MAX_ROUNDS)
