@@ -84,6 +84,6 @@ def ransac_single_round(input_points, max_distance):
 
 if __name__ == "__main__":
 
-    # if we call this script directly explain that there is a separate demo file
+    # if we call this script directly explain that there is a seperate demo file
 
     print("To use this file, simply import it.  To see a demo of how RANSAC works, run the ransac_demo.py file located in this directory.")

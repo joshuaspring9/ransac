@@ -6,7 +6,7 @@ import ransac
 
 def run(max_rounds):
 
-    # use numpy to generate random samples.  multiply by 20 to get a wide array of number between 0 and 20
+    # use numpy to generate random samples.  multiply by 20 to get a wide array of numbers between 0 and 20
     # (500,1) means that the array generated is 500 rows x 1 column
     x = 20 * np.random.random( (500,1) )
 
@@ -21,8 +21,11 @@ def run(max_rounds):
     x_scattered = x + np.random.normal(size=x.shape)
     y_scattered = y + np.random.normal(size=y.shape)
 
+    # now add outliers to the points, using an outlier ratio of 0.4
+    x_scattered = np.append(x_scattered, 30 * np.random.random( (int(500 * 0.4), 1) ) - 5, axis=0)
+    y_scattered = np.append(y_scattered, 20 * np.random.normal( size=(int(500 * 0.4), 1) ), axis=0)
 
-    # produce coordinates compatible with the function
+    # produce coordinates compatible with the ransac function
     output = []
 
     for i in range(len(x_scattered)):
@@ -31,7 +34,7 @@ def run(max_rounds):
     # set the min percent of inliers needed to 60%
     ratio = 0.6
     # set the max distance on each side of the line
-    distance = 1.0
+    distance = 1.5
 
     # figure out the minumum number of inliers needed for a model to be considered good
     total_points = len(output)
@@ -54,13 +57,13 @@ def run(max_rounds):
         plot.figure("Ransac iteration " + str(j), figsize=(15.0, 15.0))
      
         # grid for the plot
-        grid = [min(x) - 10, max(x) + 10, min(y) - 20, max(y) + 20]
+        grid = [min(x_scattered) - 10, max(x_scattered) + 10, min(y_scattered) - 20, max(y_scattered) + 20]
         plot.axis(grid)
      
         # put grid on the plot
         plot.grid(b=True, which='major', color='0.75', linestyle='--')
-        plot.xticks([i for i in range(min(x) - 10, max(x) + 10, 5)])
-        plot.yticks([i for i in range(min(y) - 20, max(y) + 20, 10)])
+        plot.xticks([i for i in range(min(x_scattered) - 10, max(x_scattered) + 10, 5)])
+        plot.yticks([i for i in range(min(y_scattered) - 20, max(y_scattered) + 20, 10)])
      
         # plot input points
         plot.plot(inliers[:,0], inliers[:,1], marker='o', label='Inlier points', color='#00cc00', linestyle='None', alpha=0.4)
