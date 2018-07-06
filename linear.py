@@ -3,7 +3,7 @@
 import random
 from math import sqrt
 
-def ransac(input_points, max_distance, max_iterations, ratio):
+def compute(input_points, max_distance, max_iterations, ratio):
 
     total_points = len(input_points)
     min_inliers = total_points * ratio
@@ -12,7 +12,7 @@ def ransac(input_points, max_distance, max_iterations, ratio):
 
         # use a while loop to indefinitely run RANSAC until we have a result
         while True:
-            round_results = ransac_single_round(input_points, max_distance)
+            round_results = compute_single_round(input_points, max_distance)
 
             # if we have more than the desired inliers, we have a good model so return m and b of that model
             if round_results[5] >= min_inliers:
@@ -23,7 +23,7 @@ def ransac(input_points, max_distance, max_iterations, ratio):
         # stop when we hit the max number of iterations
         for _ in range(max_iterations):
 
-            round_results = ransac_single_round(input_points, max_distance)
+            round_results = compute_single_round(input_points, max_distance)
 
             # if we have more than the desired inliers, we have a good model so return m and b of that model
             if round_results[5] >= min_inliers:
@@ -33,7 +33,7 @@ def ransac(input_points, max_distance, max_iterations, ratio):
         return None
 
 
-def ransac_single_round(input_points, max_distance):
+def compute_single_round(input_points, max_distance):
     
     # choose two random points to sample
     chosen_points = random.sample(input_points, 2)

@@ -7,7 +7,7 @@ MAX_ROUNDS = 10
 
 import numpy as np
 import matplotlib.pyplot as plot
-import ransac
+import linear
 import os
 
 def run(max_rounds):
@@ -55,7 +55,7 @@ def run(max_rounds):
     # run the demonstration for a maximum of 10 rounds
     for j in range(1, max_rounds + 1):
 
-        results = ransac.ransac_single_round(output, distance)
+        results = linear.compute_single_round(output, distance)
 
         # pull out all the values from the return array
         # convert the lists of points to a numpy array because the indexing is easier to work with
