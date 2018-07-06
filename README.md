@@ -6,11 +6,11 @@ There are no additional libraries needed to use the ransac.py module.  It should
 pip install numpy matplotlib
 ```
 ## How to use
-Simply import the module, and then call the ransac function:
+Simply import the module, and then call the compute function:
 ```python
 import ransac
 
-result = ransac(input_points, max_distance, max_iterations, ratio)
+result = ransac.linear.compute(input_points, max_distance, max_iterations, ratio)
 
 chosen_points = result[0]
 slope = result[1]
@@ -32,6 +32,6 @@ __Return values:__
 ## Demonstration
 To see a visual demonstration of the algorithm's iterative approach, simply run:
 ```
-./ransac_demo.py
+./linear_demo.py
 ```
 The default will be to terminate after 10 cycles of the algorithm, which can be changed by the *MAX_ITERATIONS* parameter at the top of the file.  After every iteration, a graph including the chosen model line, inliers, and outliers will be produced in the "Output" directory.  This directory can be changed through the *OUTPUT_DIR* parameter at the top of the file.
