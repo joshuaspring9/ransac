@@ -8,6 +8,10 @@ import itertools
 
 def compute(input_points, max_distance, max_iterations, ratio):
 
+    # remove duplicate points to prevent errors in the linear algebra
+    input_points.sort()
+    input_points = list(input_points for input_points,_ in itertools.groupby(input_points))
+
     total_points = len(input_points)
 
     # if we don't have at least three input points to test, then the algorithm cannot be run
@@ -15,10 +19,6 @@ def compute(input_points, max_distance, max_iterations, ratio):
         return None
 
     min_inliers = total_points * ratio
-
-    # remove duplicate points to prevent errors in the linear algebra
-    input_points.sort()
-    input_points = list(input_points for input_points,_ in itertools.groupby(input_points))
 
     if max_iterations == None:
 
