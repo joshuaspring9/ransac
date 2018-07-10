@@ -68,7 +68,7 @@ def compute_single_round(input_points, max_distance):
     y_values = np.array(y)
 
     #this gives us a, b, and c using linear algebra to solve the system
-    solution = np.linalg.solve(equations, y_values)
+    solution = np.linalg.lstsq(equations, y_values, rcond=None)[0]
 
     # now define the quadratic function
     def f(x):
