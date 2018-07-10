@@ -1,1 +1,1 @@
-This directory holds the charts that get output when ransac_demo.py is run
+This directory holds the charts that get output when a RANSAC demo is run

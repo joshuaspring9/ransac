@@ -87,5 +87,4 @@ def compute_single_round(input_points, max_distance):
 if __name__ == "__main__":
 
     # if we call this script directly explain that there is a separate demo file
-
-    print("To use this file, simply import it.  To see a demo of how RANSAC works, run the ransac_demo.py file located in this directory.")
+    print("To use this file, simply import it.  To see a demo of how line fitting RANSAC works, run the linear_demo.py file located in this directory.")
