@@ -4,11 +4,21 @@ import random
 from math import sqrt
 import scipy.optimize
 import numpy as np
+import itertools
 
 def compute(input_points, max_distance, max_iterations, ratio):
 
     total_points = len(input_points)
+
+    # if we don't have at least three input points to test, then the algorithm cannot be run
+    if total_points < 3:
+        return None
+
     min_inliers = total_points * ratio
+
+    # remove duplicate points to prevent errors in the linear algebra
+    input_points.sort()
+    input_points = list(input_points for input_points,_ in itertools.groupby(input_points))
 
     if max_iterations == None:
 
@@ -16,8 +26,11 @@ def compute(input_points, max_distance, max_iterations, ratio):
         while True:
             round_results = compute_single_round(input_points, max_distance)
 
-            # if we have more than the desired inliers, we have a good model so return m and b of that model
-            if round_results[6] >= min_inliers:
+            if round_results == None:
+                # something went wrong with the linear algebra, try again
+                continue
+            elif round_results[6] >= min_inliers:
+                # if we have more than the desired inliers, we have a good model so return the parameters of that model
                 return round_results[:6]
 
     else:
@@ -27,8 +40,11 @@ def compute(input_points, max_distance, max_iterations, ratio):
 
             round_results = compute_single_round(input_points, max_distance)
 
-            # if we have more than the desired inliers, we have a good model so return m and b of that model
-            if round_results[6] >= min_inliers:
+            if round_results == None:
+                # something went wrong with the linear algebra, try again
+                continue
+            elif round_results[6] >= min_inliers:
+                # if we have more than the desired inliers, we have a good model so return the parameters of that model
                 return round_results[:6]
 
         # no line fits the model with an acceptable number of inliers and we hit the max number of iterations, terminate
@@ -36,7 +52,7 @@ def compute(input_points, max_distance, max_iterations, ratio):
 
 
 def compute_single_round(input_points, max_distance):
-    
+
     # choose three random points to sample
     chosen_points = random.sample(input_points, 3)
 
@@ -68,7 +84,11 @@ def compute_single_round(input_points, max_distance):
     y_values = np.array(y)
 
     #this gives us a, b, and c using linear algebra to solve the system
-    solution = np.linalg.lstsq(equations, y_values, rcond=None)[0]
+    try:
+        solution = np.linalg.solve(equations, y_values)
+    except:
+        # if there are no solutions or an infinite number of solutions, something went wrong
+        return None
 
     # now define the quadratic function
     def f(x):
